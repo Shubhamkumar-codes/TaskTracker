@@ -113,6 +113,13 @@ export default function Home() {
     }
   }, [state?.notificationsEnabled, state?.reminders]);
 
+  useEffect(() => {
+     if (toast) {
+       const t = setTimeout(() => setToast(null), 4000);
+       return () => clearTimeout(t);
+     }
+   }, [toast]);
+
   if (!state) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: '#64748B' }}>
@@ -245,14 +252,6 @@ export default function Home() {
       reminders: prev.reminders.map(r => r.id === id ? { ...r, time: newTime } : r),
     }));
   }
-
-  // Dismiss toast
-  useEffect(() => {
-    if (toast) {
-      const t = setTimeout(() => setToast(null), 4000);
-      return () => clearTimeout(t);
-    }
-  }, [toast]);
 
   // ---------- Render ----------
   return (
